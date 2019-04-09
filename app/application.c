@@ -143,6 +143,6 @@ void application_init(void)
     // Infra Grid Module
     bc_module_infra_grid_init(&infra);
     bc_module_infra_grid_set_event_handler(&infra, infra_handler, NULL);
-    bc_module_infra_grid_set_update_interval(&infra, 1000);
+    bc_module_infra_grid_set_update_interval(&infra, 100);
 }
 
