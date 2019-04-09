@@ -7,6 +7,13 @@
 [![License](https://img.shields.io/github/license/bigclownlabs/bcf-skeleton.svg)](https://github.com/bigclownlabs/bcf-skeleton/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/follow/BigClownLabs.svg?style=social&label=Follow)](https://twitter.com/BigClownLabs)
 
+This project is an example that displays thermal data on LCD Module. Press a button to turn on the temperature readout.
+
+Supports both versions of Infragrid Module R1.0 and R1.1.
+
+![Project image](./img/IMG_20190409_131612.jpg)
+
+
 If you want to get more information about Core Module, firmware and how to work with it, please follow this link:
 
 **https://www.bigclown.com/doc/firmware/basic-overview/**
