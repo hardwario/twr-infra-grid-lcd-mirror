@@ -1,0 +1,16 @@
+article: https://github.com/bigclownprojects/bcf-infra-grid-lcd-mirror/blob/master/README.md
+articles:
+  - title: HARDWARIO Infra-Grid mirror
+    url: https://www.hackster.io/332208/hardwario-infra-grid-mirror-63fa0c
+    description: Get temperature of any surface or a person with this simple solution that shows the temperature grid on LCD monitor
+    images:
+      - url: https://hackster.imgix.net/uploads/attachments/1088691/_DMHVE81a3h.blob?auto=compress%2Cformat&w=900&h=675&fit=min
+images:
+  - title:
+    url: https://github.com/bigclownlabs/bc-website/blob/master/static/modules/Modules_382x324_Infra%20Grid.png?raw=true
+assembly:
+  - name: HARDWARIO Split Module
+  - name: HARDWARIO LCD Module
+  - name: HARDWARIO Infra Grid Module
+  - name: HARDWARIO Core - NR Module
+  - name: HARDWARIO Battery Module
