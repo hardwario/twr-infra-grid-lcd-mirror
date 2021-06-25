@@ -1,19 +1,19 @@
 #include <application.h>
 
 // LED instance
-bc_led_t led;
+twr_led_t led;
 
 // Button instance
-bc_button_t button;
+twr_button_t button;
 
 // Graphics GFX instance
-bc_gfx_t *pgfx;
+twr_gfx_t *pgfx;
 
 // Infra Grid Module
-bc_module_infra_grid_t infra;
+twr_module_infra_grid_t infra;
 
-bc_led_t lcd_led_red;
-bc_led_t lcd_led_green;
+twr_led_t lcd_led_red;
+twr_led_t lcd_led_green;
 
 // 8x8 temperature array
 float temperatures[64];
@@ -38,30 +38,30 @@ int32_t map_c(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_
     return val;
 }
 
-void lcd_event_handler(bc_module_lcd_event_t event, void *param)
+void lcd_event_handler(twr_module_lcd_event_t event, void *param)
 {
     (void) param;
 
-    if (event == BC_MODULE_LCD_EVENT_LEFT_CLICK)
+    if (event == TWR_MODULE_LCD_EVENT_LEFT_CLICK)
     {
         temperature_level_value -= 0.2;
-        temperature_level_timeout = bc_tick_get() + 1500;
+        temperature_level_timeout = twr_tick_get() + 1500;
     }
-    else if (event == BC_MODULE_LCD_EVENT_RIGHT_CLICK)
+    else if (event == TWR_MODULE_LCD_EVENT_RIGHT_CLICK)
     {
         temperature_level_value += 0.2;
-        temperature_level_timeout = bc_tick_get() + 1500;
+        temperature_level_timeout = twr_tick_get() + 1500;
     }
-    else if (event == BC_MODULE_LCD_EVENT_BOTH_HOLD)
+    else if (event == TWR_MODULE_LCD_EVENT_BOTH_HOLD)
     {
         display_temperature = !display_temperature;
     }
 
 }
 
-void infra_handler(bc_module_infra_grid_t *self, bc_module_infra_grid_event_t event, void *param)
+void infra_handler(twr_module_infra_grid_t *self, twr_module_infra_grid_event_t event, void *param)
 {
-    if (event == BC_MODULE_INFRA_GRID_EVENT_ERROR)
+    if (event == TWR_MODULE_INFRA_GRID_EVENT_ERROR)
     {
         volatile int i = 5;
         i++;
@@ -69,18 +69,18 @@ void infra_handler(bc_module_infra_grid_t *self, bc_module_infra_grid_event_t ev
 
     //return;
 
-    if (event == BC_MODULE_INFRA_GRID_EVENT_UPDATE)
+    if (event == TWR_MODULE_INFRA_GRID_EVENT_UPDATE)
     {
-        if (!bc_gfx_display_is_ready(pgfx))
+        if (!twr_gfx_display_is_ready(pgfx))
         {
             return;
         }
 
         // Enable PLL to increase LCD redraw speed
-        bc_system_pll_enable();
+        twr_system_pll_enable();
 
-        bc_module_infra_grid_get_temperatures_celsius(self, temperatures);
-        
+        twr_module_infra_grid_get_temperatures_celsius(self, temperatures);
+
         float min_temperature = 20;
         float max_temperature = 24;
 
@@ -119,7 +119,7 @@ void infra_handler(bc_module_infra_grid_t *self, bc_module_infra_grid_event_t ev
                 const uint16_t dithering_table[] = {0x0000, 0x1080, 0x1428, 0x7ebd, 0xffff};
                 uint8_t r_row = 16 - row;
 
-                bc_gfx_draw_fill_rectangle_dithering(pgfx, r_row * 8, col * 8, r_row * 8 + 8, col * 8 + 8, dithering_table[map_index]);
+                twr_gfx_draw_fill_rectangle_dithering(pgfx, r_row * 8, col * 8, r_row * 8 + 8, col * 8 + 8, dithering_table[map_index]);
             }
         }
 
@@ -129,67 +129,67 @@ void infra_handler(bc_module_infra_grid_t *self, bc_module_infra_grid_event_t ev
             float central_temperature = temperatures[4 + 4*8];
             //central_temperature = 38.6;
             snprintf(str_temp, sizeof(str_temp),"%.1f°C", central_temperature);
-            bc_gfx_set_font(pgfx, &bc_font_ubuntu_13);
-            int width = bc_gfx_calc_string_width(pgfx, str_temp);
-            bc_gfx_draw_fill_rectangle(pgfx, 50, 50, 50 + width, 50 + 13, false);
-            bc_gfx_draw_string(pgfx, 50, 50, str_temp, true);
+            twr_gfx_set_font(pgfx, &twr_font_ubuntu_13);
+            int width = twr_gfx_calc_string_width(pgfx, str_temp);
+            twr_gfx_draw_fill_rectangle(pgfx, 50, 50, 50 + width, 50 + 13, false);
+            twr_gfx_draw_string(pgfx, 50, 50, str_temp, true);
 
             // Temperature set value
-            if (temperature_level_timeout > bc_tick_get())
+            if (temperature_level_timeout > twr_tick_get())
             {
-                bc_gfx_printf(pgfx, 10, 0, true, "%0.1f", temperature_level_value);
+                twr_gfx_printf(pgfx, 10, 0, true, "%0.1f", temperature_level_value);
             }
 
             if (central_temperature < temperature_level_value)
             {
-                bc_led_set_mode(&lcd_led_green, BC_LED_MODE_ON);
-                bc_led_set_mode(&lcd_led_red  , BC_LED_MODE_OFF);
+                twr_led_set_mode(&lcd_led_green, TWR_LED_MODE_ON);
+                twr_led_set_mode(&lcd_led_red  , TWR_LED_MODE_OFF);
             }
             else
             {
-                bc_led_set_mode(&lcd_led_green, BC_LED_MODE_OFF);
-                bc_led_set_mode(&lcd_led_red  , BC_LED_MODE_BLINK_FAST);
+                twr_led_set_mode(&lcd_led_green, TWR_LED_MODE_OFF);
+                twr_led_set_mode(&lcd_led_red  , TWR_LED_MODE_BLINK_FAST);
             }
         }
 
-        bc_gfx_update(pgfx);
+        twr_gfx_update(pgfx);
 
-        bc_system_pll_disable();
+        twr_system_pll_disable();
     }
 }
 
 void application_init(void)
 {
     // Initialize logging
-    //bc_log_init(BC_LOG_LEVEL_DUMP, BC_LOG_TIMESTAMP_ABS);
+    //twr_log_init(TWR_LOG_LEVEL_DUMP, TWR_LOG_TIMESTAMP_ABS);
 
     // Initialize LED
-    bc_led_init(&led, BC_GPIO_LED, false, false);
-    bc_led_set_mode(&led, BC_LED_MODE_OFF);
-    bc_led_pulse(&led, 1000);
+    twr_led_init(&led, TWR_GPIO_LED, false, false);
+    twr_led_set_mode(&led, TWR_LED_MODE_OFF);
+    twr_led_pulse(&led, 1000);
 
     // Initialize button
-    //bc_button_init(&button, BC_GPIO_BUTTON, BC_GPIO_PULL_DOWN, false);
-    //bc_button_set_event_handler(&button, button_event_handler, NULL);
+    //twr_button_init(&button, TWR_GPIO_BUTTON, TWR_GPIO_PULL_DOWN, false);
+    //twr_button_set_event_handler(&button, button_event_handler, NULL);
 
     // LCD Module
-    bc_module_lcd_init();
-    bc_module_lcd_set_event_handler(lcd_event_handler, NULL);
-    pgfx = bc_module_lcd_get_gfx();
+    twr_module_lcd_init();
+    twr_module_lcd_set_event_handler(lcd_event_handler, NULL);
+    pgfx = twr_module_lcd_get_gfx();
     // LEDs on LCD Module
-    const bc_led_driver_t* driver = bc_module_lcd_get_led_driver();
-    bc_led_init_virtual(&lcd_led_red, 0, driver, 1);
-    bc_led_init_virtual(&lcd_led_green, 1, driver, 1);
+    const twr_led_driver_t* driver = twr_module_lcd_get_led_driver();
+    twr_led_init_virtual(&lcd_led_red, 0, driver, 1);
+    twr_led_init_virtual(&lcd_led_green, 1, driver, 1);
 
     // Infra Grid Module
-    bc_module_infra_grid_init(&infra);
-    bc_module_infra_grid_set_event_handler(&infra, infra_handler, NULL);
-    //bc_module_infra_grid_set_update_interval(&infra, 100);
+    twr_module_infra_grid_init(&infra);
+    twr_module_infra_grid_set_event_handler(&infra, infra_handler, NULL);
+    //twr_module_infra_grid_set_update_interval(&infra, 100);
 }
 
 
 void application_task()
 {
-    bc_module_infra_grid_measure(&infra);
-    bc_scheduler_plan_current_relative(100);
+    twr_module_infra_grid_measure(&infra);
+    twr_scheduler_plan_current_relative(100);
 }
