@@ -2,7 +2,7 @@
 
 # Infragrid Module mirror for HARDWARIO Core Module
 
-[![Travis](https://www.travis-ci.com/hardwario/twr-infra-grid-lcd-mirror.svg?branch=master)](https://www.travis-ci.com/hardwario/twr-infra-grid-lcd-mirror)
+[![build](https://github.com/hardwario/twr-infra-grid-lcd-mirror/actions/workflows/main.yml/badge.svg)](https://github.com/hardwario/twr-infra-grid-lcd-mirror/actions/workflows/main.yml)
 [![Release](https://img.shields.io/github/release/bigclownprojects/bcf-infra-grid-lcd-mirror.svg)](https://github.com/bigclownprojects/bcf-infra-grid-lcd-mirror/releases)
 [![License](https://img.shields.io/github/license/bigclownprojects/bcf-infra-grid-lcd-mirror.svg)](https://github.com/bigclownprojects/bcf-infra-grid-lcd-mirror/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/follow/hardwario_en.svg?style=social&label=Follow)](https://twitter.com/hardwario_en)
