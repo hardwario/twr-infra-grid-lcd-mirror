@@ -176,6 +176,7 @@ void application_init(void)
     twr_module_lcd_init();
     twr_module_lcd_set_event_handler(lcd_event_handler, NULL);
     pgfx = twr_module_lcd_get_gfx();
+
     // LEDs on LCD Module
     const twr_led_driver_t* driver = twr_module_lcd_get_led_driver();
     twr_led_init_virtual(&lcd_led_red, 0, driver, 1);
